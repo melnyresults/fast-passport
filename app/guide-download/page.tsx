@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PhoneInput } from '@/components/phone-input';
 import { supabase } from '@/lib/supabase';
+import { generateEventId, sendCAPIEvent } from '@/lib/meta-capi';
 import { translations, Language } from '@/lib/translations';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
@@ -85,6 +86,17 @@ export default function GuideDownloadPage() {
         setError(t.errorMessage);
         return;
       }
+
+      const eventId = generateEventId();
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', 'Contact', {}, { eventID: eventId });
+      }
+      sendCAPIEvent({
+        event_name: 'Contact',
+        event_id: eventId,
+        first_name: fullName.trim(),
+        phone: phone.trim(),
+      });
 
       router.push('/guide-download-thanks');
     } catch (err) {

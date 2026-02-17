@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { PhoneInput } from '@/components/phone-input';
 import { supabase } from '@/lib/supabase';
+import { generateEventId, sendCAPIEvent } from '@/lib/meta-capi';
 import { thanksTranslations, Language } from '@/lib/translations';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
@@ -98,6 +99,18 @@ export default function GuideDownloadThanksPage() {
         setError(t.errorMessage);
         return;
       }
+
+      const eventId = generateEventId();
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', 'Schedule', {}, { eventID: eventId });
+      }
+      sendCAPIEvent({
+        event_name: 'Schedule',
+        event_id: eventId,
+        first_name: fullName.trim(),
+        phone: phone.trim(),
+        email: email.trim(),
+      });
 
       router.push('/guide-download-final-thanks');
     } catch (err) {

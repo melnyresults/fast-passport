@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { generateEventId, sendCAPIEvent } from '@/lib/meta-capi';
 
 declare global {
   interface Window {
@@ -14,9 +15,16 @@ export function MetaPixel() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (typeof window.fbq === 'undefined') return;
+    const eventId = generateEventId();
 
-    window.fbq('track', 'PageView');
+    if (typeof window.fbq !== 'undefined') {
+      window.fbq('track', 'PageView', {}, { eventID: eventId });
+    }
+
+    sendCAPIEvent({
+      event_name: 'PageView',
+      event_id: eventId,
+    });
   }, [pathname, searchParams]);
 
   return null;
