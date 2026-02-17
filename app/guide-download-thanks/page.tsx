@@ -83,14 +83,15 @@ export default function GuideDownloadThanksPage() {
 
     try {
       const { error: submitError } = await supabase
-        .from('consultation_bookings')
+        .from('leads')
         .insert({
           full_name: fullName.trim(),
           email: email.trim(),
           phone: phone.trim(),
           additional_info: additionalInfo?.trim() || null,
           language: lang,
-          source: 'guide-download-thanks',
+          source: 'consultation',
+          stage: 'New Lead / Guide Request',
         });
 
       if (submitError) {

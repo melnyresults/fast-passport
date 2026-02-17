@@ -72,12 +72,13 @@ export default function Home() {
 
     try {
       const { error: submitError } = await supabase
-        .from('guide_leads')
+        .from('leads')
         .insert({
           full_name: fullName.trim(),
           phone: phone.trim(),
           language: lang,
           source: 'guide-download',
+          stage: 'New Lead / Guide Request',
         });
 
       if (submitError) {

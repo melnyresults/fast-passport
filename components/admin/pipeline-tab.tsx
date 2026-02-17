@@ -27,12 +27,12 @@ import {
 } from '@/components/ui/select';
 import { GripVertical, Mail, Phone, DollarSign, Pencil } from 'lucide-react';
 import { LeadEditDialog } from './lead-edit-dialog';
+import { useUpdateLead, useDeleteLead, useMoveLeadStage } from '@/hooks/admin/use-leads';
 import { PIPELINE_STAGES, type Lead, type PipelineStage } from '@/lib/types/admin';
 import { cn } from '@/lib/utils';
 
 interface PipelineTabProps {
   leads: Lead[];
-  onLeadsChange: (leads: Lead[]) => void;
 }
 
 // --- Lead Card (Draggable) ---
@@ -243,13 +243,17 @@ function MobileStageView({
 }
 
 // --- Main Pipeline Tab ---
-export function PipelineTab({ leads, onLeadsChange }: PipelineTabProps) {
+export function PipelineTab({ leads }: PipelineTabProps) {
   const [editingLead, setEditingLead] = useState<Lead | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [activeDragLead, setActiveDragLead] = useState<Lead | null>(null);
   const [mobileStage, setMobileStage] = useState<PipelineStage>(
     PIPELINE_STAGES[0]
   );
+
+  const updateLeadMutation = useUpdateLead();
+  const deleteLeadMutation = useDeleteLead();
+  const moveLeadMutation = useMoveLeadStage();
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -275,27 +279,21 @@ export function PipelineTab({ leads, onLeadsChange }: PipelineTabProps) {
     if (!over) return;
 
     const leadId = active.id as string;
-    const newStage = over.id as PipelineStage;
+    const newStage = over.id as string;
 
-    moveLead(leadId, newStage);
+    moveLeadMutation.mutate({ id: leadId, stage: newStage });
   }
 
   function moveLead(leadId: string, newStage: PipelineStage) {
-    onLeadsChange(
-      leads.map((l) =>
-        l.id === leadId
-          ? { ...l, stage: newStage, updatedAt: new Date().toISOString() }
-          : l
-      )
-    );
+    moveLeadMutation.mutate({ id: leadId, stage: newStage });
   }
 
   function handleSaveLead(updated: Lead) {
-    onLeadsChange(leads.map((l) => (l.id === updated.id ? updated : l)));
+    updateLeadMutation.mutate(updated);
   }
 
   function handleDeleteLead(leadId: string) {
-    onLeadsChange(leads.filter((l) => l.id !== leadId));
+    deleteLeadMutation.mutate(leadId);
   }
 
   function openEditDialog(lead: Lead) {
