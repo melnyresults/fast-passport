@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 30% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 30% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 30% 15%;
+    --primary: 220 50% 20%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 40 0% 96%;
+    --secondary-foreground: 220 30% 15%;
+    --muted: 40 10% 96%;
+    --muted-foreground: 220 10% 45%;
+    --accent: 43 74% 49%;
+    --accent-foreground: 220 30% 15%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 15% 90%;
+    --input: 220 15% 90%;
+    --ring: 220 50% 20%;
+    --radius: 0.5rem;
+
+    --navy: 220 50% 20%;
+    --navy-dark: 220 55% 12%;
+    --navy-light: 220 40% 35%;
+    --gold: 43 74% 49%;
+    --gold-light: 43 70% 65%;
+    --gold-dark: 43 80% 38%;
+    --cream: 45 30% 97%;
+    --off-white: 40 20% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+  }
+}
+
+@layer utilities {
+  .font-serif {
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .font-sans {
+    font-family: 'Inter', sans-serif;
+  }
+  .text-navy {
+    color: hsl(220 50% 20%);
+  }
+  .text-navy-dark {
+    color: hsl(220 55% 12%);
+  }
+  .text-navy-light {
+    color: hsl(220 40% 35%);
+  }
+  .text-gold {
+    color: hsl(43 74% 49%);
+  }
+  .bg-navy {
+    background-color: hsl(220 50% 20%);
+  }
+  .bg-navy-dark {
+    background-color: hsl(220 55% 12%);
+  }
+  .bg-cream {
+    background-color: hsl(45 30% 97%);
+  }
+  .bg-off-white {
+    background-color: hsl(40 20% 98%);
+  }
+  .border-gold {
+    border-color: hsl(43 74% 49%);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lineGrow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
+.animate-line-grow {
+  animation: lineGrow 0.8s ease-out forwards;
+  transform-origin: left;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-gentle-float {
+  animation: gentleFloat 8s ease-in-out infinite;
+}
+
+.animation-delay-100 { animation-delay: 0.1s; }
+.animation-delay-200 { animation-delay: 0.2s; }
+.animation-delay-300 { animation-delay: 0.3s; }
+.animation-delay-400 { animation-delay: 0.4s; }
+.animation-delay-500 { animation-delay: 0.5s; }
+.animation-delay-600 { animation-delay: 0.6s; }
+.animation-delay-700 { animation-delay: 0.7s; }
+.animation-delay-800 { animation-delay: 0.8s; }
+
+.hover-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.12);
+}
+
+.icon-hover {
+  transition: transform 0.2s ease;
+}
+
+.icon-hover:hover {
+  transform: rotate(3deg) scale(1.05);
+}
+
+.min-h-screen-safe {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
