@@ -4,6 +4,8 @@ const PIXEL_ID = Deno.env.get("META_PIXEL_ID")!;
 const ACCESS_TOKEN = Deno.env.get("META_CAPI_ACCESS_TOKEN")!;
 const GRAPH_URL = `https://graph.facebook.com/v21.0/${PIXEL_ID}/events`;
 
+const TEST_EVENT_CODE = Deno.env.get("META_TEST_EVENT_CODE");
+
 const STAGE_TO_EVENT: Record<string, string> = {
   "Booked & Confirmed": "Schedule",
   "Converted Customer": "Purchase",
@@ -25,8 +27,6 @@ Deno.serve(async (req) => {
   try {
     const { type, record, old_record } = await req.json();
 
-    // On INSERT, check the new record's stage.
-    // On UPDATE, only fire if stage actually changed.
     if (type === "UPDATE" && old_record?.stage === record?.stage) {
       return new Response(JSON.stringify({ skipped: "stage unchanged" }), {
         status: 200,
@@ -56,18 +56,21 @@ Deno.serve(async (req) => {
       event_name: eventName,
       event_id: eventId,
       event_time: Math.floor(Date.now() / 1000),
-      action_source: "system_generated",
+      action_source: "website",
       user_data: userData,
     };
 
-    if (eventName === "Purchase" && record.deal_value != null) {
+    if (eventName === "Purchase") {
       eventData.custom_data = {
         currency: "USD",
-        value: Number(record.deal_value),
+        value: record.deal_value != null ? Number(record.deal_value) : 0,
       };
     }
 
-    const payload = { data: [eventData], access_token: ACCESS_TOKEN };
+    const payload: Record<string, unknown> = { data: [eventData], access_token: ACCESS_TOKEN };
+    if (TEST_EVENT_CODE) {
+      payload.test_event_code = TEST_EVENT_CODE;
+    }
 
     const metaRes = await fetch(GRAPH_URL, {
       method: "POST",
@@ -76,7 +79,6 @@ Deno.serve(async (req) => {
     });
 
     const metaBody = await metaRes.json();
-    console.log("meta-capi-lead-stage:", eventName, record.id, metaBody);
 
     return new Response(JSON.stringify(metaBody), {
       status: metaRes.ok ? 200 : 502,
