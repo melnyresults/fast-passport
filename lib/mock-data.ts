@@ -40,7 +40,7 @@ export const MOCK_LEADS: Lead[] = [
     phone: '+966551234567',
     dealValue: 100000,
     notes: 'High net worth individual. Wants express entry.',
-    stage: 'Day 2 Follow Up',
+    stage: 'Qualified Lead',
     source: 'referral',
     createdAt: '2026-01-25T08:00:00Z',
     updatedAt: '2026-02-03T11:00:00Z',

@@ -1,7 +1,7 @@
 export const PIPELINE_STAGES = [
   'New Lead / Guide Request',
   'Called & Guide Sent',
-  'Day 2 Follow Up',
+  'Qualified Lead',
   'Day 3 Follow Up',
   'Day 4 Follow Up',
   'Day 5 Follow Up',
