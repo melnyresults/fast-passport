@@ -102,7 +102,7 @@ export function BenefitsSection() {
             Why Canada
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-navy-dark mb-4 sm:mb-6" style={{ color: 'hsl(220 55% 12%)' }}>
-            The World's Most Desirable Passport
+            The World&apos;s Most Desirable Passport
           </h2>
           <div className="w-24 h-1 bg-gold mx-auto rounded-full animate-line-grow" style={{ backgroundColor: 'hsl(43 74% 49%)' }} />
         </div>
