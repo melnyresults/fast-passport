@@ -17,6 +17,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-white">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-10883917765"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-10883917765');
+          `}
+        </Script>
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
